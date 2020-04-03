@@ -2,6 +2,8 @@
 organism class.
 Represent living beings in a "living" environment.
 """
+import random
+
 
 states = {'empty': 0, 'healthy': 1, 'infected': 2}
 
@@ -31,7 +33,7 @@ class Organism:
         if self.state != states['healthy']:
             return
         for neighbor in neighbors:
-            if neighbor.state == states['infected']:
+            if neighbor.state == states['infected'] and random.uniform(0, 1) < ca.P:
                 self.state = states['infected']
                 ca.infected_count += 1
                 break

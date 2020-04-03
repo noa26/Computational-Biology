@@ -1,0 +1,9 @@
+
+Cellular automaton/.idea/Cellular automaton.iml
+Cellular automaton/.idea/misc.xml
+Cellular automaton/.idea/workspace.xml
+Cellular automaton/__pycache__/cellular_automaton.cpython-36.pyc
+*.csv
+*.pyc
+*.xml
+*.iml

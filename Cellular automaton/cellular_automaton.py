@@ -16,7 +16,6 @@ class CellularAutomaton:
         self.automaton = np.zeros((self.N, self.M))
         self.organisms = []
         self.infected_count = 0
-        print("shape", self.automaton.shape)
 
     def add_organisms(self, n):
         if n == 0:
