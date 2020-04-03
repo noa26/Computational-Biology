@@ -16,10 +16,6 @@ class Organism:
         else:
             self.state = states['empty']
 
-    def infect(self, ca):
-        self.state = states['infected']
-        ca.infected_count += 1
-
     def actions(self, ca):
         acts = []
         neighbors = ca.neighbors(self)
@@ -30,6 +26,15 @@ class Organism:
         # add staying in place action
         acts.append((self.row, self.column))
         return acts
+
+    def update_state(self, neighbors, ca):
+        if self.state != states['healthy']:
+            return
+        for neighbor in neighbors:
+            if neighbor.state == states['infected']:
+                self.state = states['infected']
+                ca.infected_count += 1
+                break
 
     def __eq__(self, other):
         if self.row == other.row and self.column == other.column:

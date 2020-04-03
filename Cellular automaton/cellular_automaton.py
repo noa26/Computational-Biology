@@ -9,9 +9,10 @@ from organism import states, Organism
 
 class CellularAutomaton:
 
-    def __init__(self, n=200, m=200):
+    def __init__(self, n=200, m=200, p=0.5):
         self.N = n
         self.M = m
+        self.P = p
         self.automaton = np.zeros((self.N, self.M))
         self.organisms = []
         self.infected_count = 0
@@ -44,10 +45,24 @@ class CellularAutomaton:
             action = random.choice(o.actions(self))
             self._move(o, action)
 
+    def update_states(self):
+        for o in self.organisms:
+            neighbors = []
+            for x, y in self.neighbors(o):
+                neighbors.append(Organism(x, y, self.automaton[x][y]))
+            o.update_state(neighbors, self)
+        self._update_automaton()
+
     def neighbors(self, o):
         locations = [((o.row + i) % self.N, (o.column + j) % self.M)
                      for i in range(-1, 2) for j in range(-1, 2)]
         return [(x, y) for x, y in locations if x != o.row or y != o.column]
+
+    def all_infected(self):
+        print("self.organisms:", len(self.organisms), "self.infected_count:", self.infected_count)
+        if len(self.organisms) == self.infected_count:
+            return True
+        return False
 
     def _update_automaton(self):
         self.automaton = np.zeros((self.N, self.M))

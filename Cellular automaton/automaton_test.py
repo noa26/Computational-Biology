@@ -1,7 +1,7 @@
 from cellular_automaton import CellularAutomaton
 
 
-corona = CellularAutomaton(5, 5)
+corona = CellularAutomaton(5, 3)
 print(corona.automaton)
 
 
@@ -12,5 +12,10 @@ print(corona.automaton)
 while input('continue? y/n') == 'y':
     corona.move_all()
     print(corona.automaton)
+    print()
+    corona.update_states()
+    print(corona.automaton)
+    if corona.all_infected():
+        break
 
 print("end:)")
