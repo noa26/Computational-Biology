@@ -6,13 +6,16 @@ import numpy as np
 import random
 from organism import states, Organism
 
+MAX_NEIGHBORS = 8
+
 
 class CellularAutomaton:
 
-    def __init__(self, n=200, m=200, p=0.5):
+    def __init__(self, n=200, m=200, p=0.5, isolation=0):
         self.N = n
         self.M = m
         self.P = p
+        self.K = isolation
         self.automaton = np.zeros((self.N, self.M))
         self.organisms = []
         self.infected_count = 0
@@ -29,7 +32,9 @@ class CellularAutomaton:
             locations.add((random.randrange(self.N), random.randrange(self.M)))
 
         # make one infected
-        location = locations.pop()
+        locations = list(locations)
+        location = random.choice(locations)
+        locations.remove(location)
         self.organisms.append(Organism(location[0], location[1], states['infected']))
         self.infected_count += 1
 
@@ -45,14 +50,19 @@ class CellularAutomaton:
             self._move(o, action)
 
     def update_states(self):
+        if self.K == MAX_NEIGHBORS:
+            return
         for o in self.organisms:
+            if not o.is_healthy():
+                continue
             neighbors = []
-            for x, y in self.neighbors(o):
+            locations = self.neighbors_locations(o)[:(MAX_NEIGHBORS - self.K)]
+            for x, y in locations:
                 neighbors.append(Organism(x, y, self.automaton[x][y]))
             o.update_state(neighbors, self)
         self._update_automaton()
 
-    def neighbors(self, o):
+    def neighbors_locations(self, o):
         locations = [((o.row + i) % self.N, (o.column + j) % self.M)
                      for i in range(-1, 2) for j in range(-1, 2)]
         return [(x, y) for x, y in locations if x != o.row or y != o.column]

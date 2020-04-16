@@ -23,8 +23,9 @@ def log_contagion(n, p, f):
 
 
 def main():
+
     p_values = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-    n_values = [250, 500, 1000, 2000, 4000]
+    n_values = [2000, 6000, 10000, 20000, 40000]
 
     for n in n_values:
         with open(str(n) + "_analysis.csv", "w+") as f:

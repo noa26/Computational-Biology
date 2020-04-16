@@ -1,7 +1,7 @@
 from cellular_automaton import CellularAutomaton
 
 
-corona = CellularAutomaton(5, 5)
+corona = CellularAutomaton(5, 5, p=1, isolation=8)
 print(corona.automaton)
 
 

@@ -20,7 +20,7 @@ class Organism:
 
     def actions(self, ca):
         acts = []
-        neighbors = ca.neighbors(self)
+        neighbors = ca.neighbors_locations(self)
         for neighbor in neighbors:
             if ca.automaton[neighbor[0]][neighbor[1]] == states['empty']:
                 acts.append(neighbor)
@@ -30,13 +30,17 @@ class Organism:
         return acts
 
     def update_state(self, neighbors, ca):
-        if self.state != states['healthy']:
+        if not self.is_healthy():
             return
         for neighbor in neighbors:
             if neighbor.state == states['infected'] and random.uniform(0, 1) < ca.P:
                 self.state = states['infected']
                 ca.infected_count += 1
+                self.is_healthy()
                 break
+
+    def is_healthy(self):
+        return self.state == states['healthy']
 
     def __eq__(self, other):
         if self.row == other.row and self.column == other.column:
