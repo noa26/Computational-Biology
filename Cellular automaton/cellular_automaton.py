@@ -11,11 +11,11 @@ MAX_NEIGHBORS = 8
 
 class CellularAutomaton:
 
-    def __init__(self, n=200, m=200, p=0.5, isolation=0):
+    def __init__(self, n=200, m=200, p=0.5, k=0):
         self.N = n
         self.M = m
         self.P = p
-        self.K = isolation
+        self.K = k
         self.automaton = np.zeros((self.N, self.M))
         self.organisms = []
         self.infected_count = 0
@@ -85,3 +85,40 @@ class CellularAutomaton:
 
         o.row, o.column = location
         self.automaton[o.row][o.column] = o.state
+
+
+def parameters_check(n, m, p, k, num):
+    errors = [message for (has_error, message) in (
+        (n < 1 or m < 1, 'dimensions must be positive'),
+        (int(n) != n or int(m) != m, 'dimensions must be integers'),
+        (num > n * m, 'N > n * m'),
+        (num < 1, "N must be positive"),
+        (int(num) != num, "N must be an integer"),
+        (p < 0 or p > 1, 'P must be a float between 0 and 1'),
+        (k > 8, 'K limit is 8'),
+        (k < 0, 'K minimum value is 0')
+    ) if has_error]
+
+    return errors
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

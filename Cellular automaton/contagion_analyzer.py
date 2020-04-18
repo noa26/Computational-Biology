@@ -6,9 +6,9 @@ LIMIT = 1000
 PRINT_FORMAT = "{0}, {1}, {2}\n"
 
 
-def log_contagion(n, p, f):
+def log_contagion(n, p, f, k=0):
 
-    corona = CellularAutomaton(N, M, p)
+    corona = CellularAutomaton(N, M, p, isolation=k)
     corona.add_organisms(n)
     rounds = 0
 
@@ -24,13 +24,13 @@ def log_contagion(n, p, f):
 
 def main():
 
-    p_values = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-    n_values = [2000, 6000, 10000, 20000, 40000]
+    p_values = [0.25, 0.5, 0.75, 1.0]
+    n_values = [4000, 10000, 20000, 40000]
 
     for n in n_values:
         with open(str(n) + "_analysis.csv", "w+") as f:
             for p in p_values:
-                log_contagion(n, p, f)
+                log_contagion(n, p, f, k=5)
         print("finished", n)
     print("end")
 
