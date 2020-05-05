@@ -35,15 +35,6 @@ class ColoredMap:
             canvas.plot(*region.shape.exterior.xy, color=region.color[1])
 
 
-def default_map(shapes):
-    colored_map = ColoredMap()
-
-    for s in shapes:
-        r = Region(s, shapes[s])
-        colored_map.add_region(r)
-    return  colored_map
-
-
 def load_polygons(filename):
     import csv
     shapes = dict()
@@ -57,19 +48,22 @@ def load_polygons(filename):
     return shapes
 
 
+def default_map(filename="polygons.csv"):
+    colored_map = ColoredMap()
+    shapes = load_polygons(filename)
+
+    for s in shapes:
+        r = Region(s, shapes[s])
+        colored_map.add_region(r)
+    return colored_map
+
+
 def main():
     import matplotlib.pyplot as plt
 
-    # cmap = default_map(shapes)
-    # save_shapes(shapes)
-    cmap = default_map(load_polygons("polygons.csv"))
-    # r = Region("one", Polygon([(0, 0), (1, 1), (1, 0)]))
-    # cmap.add_region(r)
-    #
-    # r = Region("two", Polygon([(0.25, 0.25), (0.5, 0.5), (0.5, 0.25)]))
-    # cmap.add_region(r)
-
+    cmap = default_map()
     cmap.show_map(plt)
+
     plt.show()
 
 
